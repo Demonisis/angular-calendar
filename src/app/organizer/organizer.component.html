@@ -1,0 +1,40 @@
+<section>
+  <header>
+    Список дел на <strong>{{dateService.date | async | moment:'DD.MM.YYYY'}}</strong>
+    <hr />
+  </header>
+
+  <main>
+    <ul *ngIf="tasks.length; else noTasks">
+      <li class="task" *ngFor="let task of tasks; let i = index">
+        <span>
+          <a (click)="compile(task)"
+              [class.complete]="task.complete == true"
+              [class.no_complete]="task.complete !== true"
+          >
+              <i class="material-icons">
+                  check_box_outline_blank || check_box
+              </i>
+          </a>
+          {{task.title}}
+        </span>
+        <button class="btn btn-primary" (click)="remove(task)">Удалить</button>
+      </li>
+    </ul>
+    <ng-template #noTasks>
+      <p class="text-center">Еще нет задач...</p>
+    </ng-template>
+  </main>
+
+  <footer>
+    <form (ngSubmit)="submit()" [formGroup]="form">
+      <input type="text" formControlName="title">
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="form.invalid"
+      >Добавить</button>
+    </form>
+  </footer>
+</section>
